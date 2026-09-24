@@ -135,12 +135,12 @@ Mail supports fictional character email addresses, multiple recipients, CC, and 
 
 For the MVP:
 
-- The GM creates player profiles, assigns characters, and preloads contacts. First use is Enter daily access code > Select Player > Select player name > Set password > Open character interface. New browsers/devices must enter the current daily four-character code (A-Z and 0-9) at the landing screen before profile selection. A successful entry issues a server-verifiable device-authorization cookie that bypasses this gate on later visits. Daily code rotation does not invalidate already authorized devices. Account passwords and GM authentication remain separate requirements. The current code is always visible in a corner of the GM panel and updates automatically when it rotates. Claimed profiles require their password; the GM can reset it. The GM has no player character and uses authenticated administrative access.
+- The GM creates player profiles, assigns characters, and preloads contacts. First use is Enter daily access code > Select Player > Select player name > Set password > Choose fictional email address > Open character interface. New browsers/devices must enter the current daily four-character code (A-Z and 0-9) at the landing screen before profile selection. A successful entry issues a server-verifiable device-authorization cookie that bypasses this gate on later visits. Daily code rotation does not invalidate already authorized devices. Account passwords and GM authentication remain separate requirements. The current code is always visible in a corner of the GM panel and updates automatically when it rotates. Claimed profiles require their password; the GM can reset it. The GM has no player character and uses authenticated administrative access.
 - Each character belongs to the single campaign.
 - Character data exists primarily to identify the player inside the application's fictional world.
 - The application does not include a full Cyberpunk RED character sheet.
 
-Players can choose predefined or custom fictional email domains. They learn addresses in person or from received mail and can email a known address without a managed contact entry. Only the GM changes contacts. The GM can conceal a sender address using an encrypted-address presentation; these emails are one-way, with reply and reply all unavailable and reply attempts rejected by the backend. Address selection timing in onboarding remains open. No real email, phone, or portraits are required.
+Players can choose predefined or custom fictional email domains. They learn addresses in person or from received mail and can email a known address without a managed contact entry. Only the GM changes contacts. The GM can conceal a sender address using an encrypted-address presentation; these emails are one-way, with reply and reply all unavailable and reply attempts rejected by the backend. Players choose their fictional email address during first-use setup after selecting their assigned profile. No real email, phone, or portraits are required.
 
 ---
 
@@ -233,6 +233,8 @@ The interface should prioritize:
 - Minimal friction during a tabletop session
 
 Visual complexity should not interfere with usability.
+
+Text Messaging has a selected visual direction based on cyberpunk-message-generator: cyan/green message colors, beveled outlined bubbles, angular header elements, and Rajdhani/Play typography with the Blender Pro header reference. See [ADR-018](DECISIONS.md#adr-018--text-messaging-visual-design) for exact roles and implementation notes. This choice applies only to Text Messaging. The red background gradient remains undecided.
 
 ---
 

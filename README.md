@@ -10,7 +10,7 @@ Terminology:
 
 ## Minimum Viable Product
 - [ ] **1.** New browsers enter a daily four-character uppercase alphanumeric code; a device-authorization cookie remembers access. The current code stays visible in the GM panel. The GM pre-creates player profiles. Players select their name and set a password on first use; later access requires that password, with GM-assisted reset.
-- [ ] **2.** Each player controls one GM-created character with a fictional email address. The GM uses a separate interface without a player character.
+- [ ] **2.** Each player controls one GM-created character and chooses a fictional email address during first-use setup. The GM uses a separate interface without a player character.
 - [ ] **3.** Players can navigate a mobile-first web application interface.
 - [ ] **4.** Players can send and receive direct messages from NPCs and other PCs.
 - [ ] **5.** Players can create PC/NPC group conversations with transferable admin permissions, membership controls, and controlled history sharing.

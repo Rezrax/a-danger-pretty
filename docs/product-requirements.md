@@ -22,7 +22,7 @@ The GM can read all player communications, including player-only conversations. 
 - **AUTH-01:** The GM and players can log in and log out using individual accounts.
 - **AUTH-02:** Authentication persists across ordinary page refreshes until logout or session expiry.
 - **AUTH-03:** The GM creates player profiles, assigns each player exactly one character, and preconfigures their contacts. Each player controls their assigned character. Players can act only as their own character. The GM account has no player character and uses a separate GM interface.
-- **AUTH-04:** First use follows Enter daily access code > Select Player > Select pre-created player name > Set password > Open the assigned character interface. Players cannot create profiles. New browsers/devices must enter the current daily four-character code (A-Z and 0-9) at the landing screen before profile selection. A successful entry issues a server-verifiable device-authorization cookie that bypasses this gate on later visits. Daily code rotation does not invalidate already authorized devices. Account passwords and GM authentication remain separate requirements. Once claimed, the profile requires its password, with recovery handled by the GM. Selecting a GM role never grants GM privileges without GM authentication.
+- **AUTH-04:** First use follows Enter daily access code > Select Player > Select pre-created player name > Set password > Choose fictional email address > Open the assigned character interface. Players cannot create profiles. New browsers/devices must enter the current daily four-character code (A-Z and 0-9) at the landing screen before profile selection. A successful entry issues a server-verifiable device-authorization cookie that bypasses this gate on later visits. Daily code rotation does not invalidate already authorized devices. Account passwords and GM authentication remain separate requirements. Once claimed, the profile requires its password, with recovery handled by the GM. Selecting a GM role never grants GM privileges without GM authentication.
 - **AUTH-05:** Protected data and actions require authentication and appropriate backend-enforced permissions.
 
 - **AUTH-06:** A player who forgets their password/PIN asks the GM for help. The GM can assign a replacement credential; existing credentials are stored as hashes and cannot be retrieved for disclosure.
@@ -55,11 +55,14 @@ The cookie remembers a successful device authorization rather than storing yeste
 
 - **CONTACT-05:** Only the GM can add or remove contacts in MVP, including preloading contacts before first login. Knowing an email address or receiving an email does not automatically add a managed contact.
 
-Example: the GM creates Matt's player profile linked to FNX (Phoenix), with Se7ens (sevens) already in FNX's contacts. Matt selects Player, selects Matt, sets his password, and enters FNX's interface with Se7ens available.
+Example: the GM creates the Player's profile linked to their Character, with 7s (sevens) already in the Character's contacts. The Player selects the Player role, selects their own name, sets their password, and enters the Character's interface with 7s available.
 
 Player-to-player contact sharing is a very-low-priority post-MVP backlog item.
 
 ### Text Messaging
+
+**Selected visual direction:** Colors, beveled/outlined message bubbles, header elements, and typography follow [ADR-018](DECISIONS.md#adr-018--text-messaging-visual-design). This applies specifically to Text Messaging. The red background gradient has not been selected; other apps' styling remains independent.
+
 
 - **MSG-01:** Players can send and receive direct text messages with other PCs and NPCs.
 - **MSG-02:** Players can create group conversations containing PCs and NPCs. The creator is labeled the group admin and can rename the conversation, add or remove characters, and transfer admin permissions to another participant.
@@ -75,6 +78,8 @@ Instant delivery describes the user experience, not a selected transport or a gu
 
 - **MSG-10:** Admin permissions may be transferred to an NPC participant; the GM exercises those permissions through that NPC's perspective.
 
+- **MSG-11:** Messages lists existing conversations. To start a direct conversation, use Contacts > Select Contact > Message. Messages does not offer New Message > Select Contact.
+
 ### In-World Email
 
 - **MAIL-01:** Players can send and receive in-world emails with PCs and NPCs through a distinct Mail interface.
@@ -84,9 +89,12 @@ Instant delivery describes the user experience, not a selected transport or a gu
 - **MAIL-05:** Email access is restricted to the relevant senders, recipients, and GM.
 - **MAIL-06:** Email stays within the application. It does not require players' real email addresses, phone numbers, or integration with external email services.
 
-Players can choose from predefined fictional email domains or invent a custom domain. When the address is selected in the revised GM-created-profile flow remains to be specified. These names route only inside the application and do not need real domain registration. The MVP email actions are compose, reply, and reply all. Forward, drafts, BCC, archive, and deletion are outside the current MVP controls. Recipients can be addressed using a known fictional address, even without a managed contact entry. Players learn addresses through in-person exchanges or received emails. Address uniqueness and NPC address setup remain to be specified. Text and email may share implementation where useful, while retaining their separate player-facing presentations.
+Players can choose from predefined fictional email domains or invent a custom domain. Players choose their fictional email address during their first visit, after selecting their assigned player/character profile and before entering the character interface. These names route only inside the application and do not need real domain registration. The MVP email actions are compose, reply, and reply all. Forward, drafts, BCC, archive, and deletion are outside the current MVP controls. Recipients can be addressed using a known fictional address, even without a managed contact entry. Players learn addresses through in-person exchanges or received emails. Address uniqueness and NPC address setup remain to be specified. Text and email may share implementation where useful, while retaining their separate player-facing presentations.
 
 - **MAIL-07:** The GM can send an email from an encrypted address, concealing the underlying sender address from players. This is sender-address obfuscation, not real email encryption. Player-visible API data and thread metadata must not expose the concealed address. These emails are one-way: reply and reply all are unavailable, and the backend rejects reply attempts to these messages.
+
+- **MAIL-08:** First-use address setup explains that the address is fictional and cannot send or receive real-world email. It uses three fields: Email (the name before @), Domain name, and Domain suffix, assembled as `email@domain.suffix`. Allowed suffixes are .gen, .open, .pub, and .atd. Presets are ncmail.pub, arasaka.gen, militech.gen, zetatech.gen, biotechnica.open, ncorp.pub, kangtao.open, kiroshi.atd, and dynalar.atd. Players may supply their own domain name using an allowed suffix.
+- **MAIL-09:** Players compose through central hub > Mail > Create Email > enter known address > compose > Send, or central hub > Contacts > select contact > Email > compose > Send. The contact route prefills its known address. Both routes support To/CC, subject, and body; ordinary email supports Reply and Reply All.
 
 ### Datashards
 
@@ -113,6 +121,8 @@ A datashard encryption minigame is recorded in [the backlog](mvp-backlog.md#futu
 
 - **NOTIFY-03:** Content is unread until opened by the player, and becomes read when opened. Read state belongs to the relevant recipient.
 - **NOTIFY-04:** Opening content while adopting a PC or NPC perspective marks it read for that selected character only. Global GM inspection without an adopted perspective does not change player or NPC read state. The GM may deliberately mark a player's content read this way as an in-world sign of hacking; no separate hacking mechanic is required.
+
+- **NOTIFY-05:** Opening a direct/group conversation marks its available messages read for the active Character. Incoming messages become read while that conversation reader is open and visible; otherwise they remain unread until opened. Global GM inspection does not change recipient read states.
 
 Live updates and necessary GM controls are built with their respective features. Later roadmap phases consolidate those capabilities. Closed-browser push notifications and external notification services are not required for MVP.
 
@@ -163,9 +173,9 @@ These items need decisions or more detailed acceptance criteria; they do not exp
 
 1. **Account setup details:** Define initial GM setup and credential rules. The product flow is settled: GM creates profiles and contacts; players authorize their device with the daily code, select their profile, and set a password. Rotation is midnight America/Chicago and device authorization has no application-imposed expiry. Administrative revocation behavior can be specified with authentication implementation. First-device access is resolved: the GM reads the code from the server console.
 2. **Contact removal:** Does removing a contact affect existing direct conversations or only the contact list? Group removal is a separate action with its own established access rules.
-3. **Email setup:** When do players choose their fictional address in the revised onboarding flow, and how are NPC addresses assigned? Define address uniqueness and unknown-address behavior. Predefined and custom domains, address-based recipients, To/CC, threading, and compose/reply/reply-all are established.
+3. **Email setup:** How are NPC addresses assigned? Player address selection during first-use setup is established. Define address uniqueness and unknown-address behavior. Predefined and custom domains, address-based recipients, To/CC, threading, and compose/reply/reply-all are established.
 4. **Datashard redistribution:** Can the GM restore access after player deletion or GM revocation, and if so does the shard return as read or unread? Shared edits, unchanged read state on edit, and per-player deletion are established.
-5. **Open-reader behavior:** How is newly arriving content treated while a reader is already open? Read-state changes from adopting a character perspective are resolved.
+Messaging open-reader behavior is resolved: incoming messages become read while their conversation is open and visible. Mail-specific reader behavior can be refined with the Mail flows.
 Live-update behavior is resolved: connected recipients receive automatic updates without manual refresh. Selecting the transport is deferred technical work and does not require another product-scope decision.
 
 ## MVP Validation Scenarios
@@ -180,7 +190,7 @@ The eventual MVP should demonstrate these complete workflows:
 6. New-content and unread indications remain consistent after refresh or reconnection, and saved data survives an application restart.
 7. Ordinary-player attempts to impersonate another character, act as an NPC, switch account perspectives, or access GM-only actions are rejected. The authenticated GM can switch perspectives and return to administration.
 8. Core workflows work on desktop as well as actual phones, and deployed campaign data can be restored from backup.
-9. Matt enters the daily code on a new browser, claims his pre-created profile, sets a password, and opens FNX with Se7ens already in Contacts. Later login requires the password; first-use setup cannot overwrite it.
+9. The Player enters the daily code on a new browser, claims their pre-created profile, sets a password, and opens the Character with 7s already in Contacts. Later login requires the password; first-use setup cannot overwrite it.
 10. Removing a group member revokes history access; rejoining exposes only messages from the new join time until Share History grants all earlier messages.
 11. Datashard edits reach remaining recipients without resetting read state. Player deletion or GM revocation removes only the relevant access, leaving other recipients unaffected.
 12. Players can address mail using a learned fictional address. GM-obfuscated sender addresses remain concealed in player-visible responses and conversation metadata; encrypted-sender emails cannot be replied to through the UI or API.
